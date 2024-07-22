@@ -17,7 +17,7 @@ export default function loginPage() {
         />
       </div>
       <div className="h-screen flex justify-center items-center flex-col">
-        <div className="flex flex-col justify-start items-start mb-6 w-full md:w-[500px] px-4">
+        <div className="flex flex-col justify-start items-start mb-6 w-full lg:w-[500px] px-4">
           <Image src="/logo.svg" width={150} height={150} alt="logo" />
           <h1 className="text-cabbage font-bold text-2xl md:text-3xl mt-2 ">
             Where developers suffer together

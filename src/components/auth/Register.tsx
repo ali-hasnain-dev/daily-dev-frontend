@@ -11,6 +11,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TabsContent } from "@/components/ui/tabs";
+import myAxios from "@/lib/axios.config";
+import { REGISTER_URL } from "@/lib/apiEndPoints";
+import { toast } from "react-toastify";
 
 export default function Register() {
   const [authState, setAuthState] = useState({
@@ -22,6 +25,33 @@ export default function Register() {
   });
 
   const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState<any>({
+    name: [],
+    user_name: [],
+    email: [],
+    password: [],
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    myAxios
+      .post(REGISTER_URL, authState)
+      .then((res) => {
+        setIsLoading(false);
+        const response = res.data;
+        toast.success(response.message);
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        if (err.response?.status === 422) {
+          setErrors(err.response.data.errors);
+        } else {
+          toast.error("Something went wrong. Please try again again.");
+        }
+      });
+  };
 
   return (
     <div>
@@ -32,7 +62,7 @@ export default function Register() {
             <CardDescription>Welcome to daily.dev</CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
-            <form action="">
+            <form onSubmit={handleSubmit}>
               <div className="space-y-1">
                 <Label htmlFor="name">Name</Label>
                 <Input
@@ -44,6 +74,9 @@ export default function Register() {
                   }
                   placeholder="Enter name"
                 />
+                <span className="text-red-500 font-semibold text-sm">
+                  {errors.name?.[0]}
+                </span>
               </div>
               <div className="space-y-1">
                 <Label htmlFor="user_name">User Name</Label>
@@ -56,6 +89,9 @@ export default function Register() {
                   }
                   placeholder="Enter user name"
                 />
+                <span className="text-red-500 font-semibold text-sm">
+                  {errors.user_name?.[0]}
+                </span>
               </div>
               <div className="space-y-1">
                 <Label htmlFor="email">Email</Label>
@@ -68,6 +104,9 @@ export default function Register() {
                   }
                   placeholder="Enter email"
                 />
+                <span className="text-red-500 font-semibold text-sm">
+                  {errors.email?.[0]}
+                </span>
               </div>
               <div className="space-y-1">
                 <Label htmlFor="password">Password</Label>
@@ -80,6 +119,9 @@ export default function Register() {
                   }
                   placeholder="Enter password"
                 />
+                <span className="text-red-500 font-semibold text-sm">
+                  {errors.password?.[0]}
+                </span>
               </div>
 
               <div className="space-y-1">
