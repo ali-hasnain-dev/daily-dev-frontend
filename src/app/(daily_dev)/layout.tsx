@@ -7,11 +7,13 @@ export default async function DailyDevLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className=" h-screen">
+    <div className=" overflow-y-hidden h-screen">
       <Navbar />
       <div className="flex">
         <SideBar />
-        <div className="">{children}</div>
+        <div className="flex justify-center items-center w-full overflow-y-scroll">
+          {children}
+        </div>
       </div>
     </div>
   );

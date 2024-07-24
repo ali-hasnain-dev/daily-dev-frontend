@@ -82,6 +82,7 @@ export default function ProfleMenu() {
       .post(UPDATE_PROFILE, formData, {
         headers: {
           Authorization: `Bearer ${user?.token}`,
+          "Content-Type": "multipart/form-data",
         },
       })
       .then((res) => {
@@ -150,7 +151,7 @@ export default function ProfleMenu() {
 
       <DropdownMenu>
         <DropdownMenuTrigger>
-          <UserAvatar />
+          <UserAvatar image={user?.profile_image ?? undefined} />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuLabel>My Account</DropdownMenuLabel>

@@ -1,14 +1,19 @@
+"use client";
 import Link from "next/link";
 import React from "react";
 import UserAvatar from "../common/UserAvatar";
 import { ArrowBigUp, Flame, Search } from "lucide-react";
-import Image from "next/image";
+import { useSession } from "next-auth/react";
+import { CustomUser } from "@/app/api/auth/[...nextauth]/authOptions";
+import AddPost from "../post/AddPost";
 
 export default function SideBarLink() {
+  const { data } = useSession();
+  const user = data?.user as CustomUser;
   return (
     <div>
       <Link href="/" className="flex space-x-4 items-center py-4">
-        <Image src="/avatar.png" width={30} height={30} alt="person" />
+        <UserAvatar image={user?.profile_image ?? undefined} />
         <p> My feed</p>
       </Link>
 
@@ -37,7 +42,9 @@ export default function SideBarLink() {
 
       <p className="my-2 font-bold text-muted-foreground">Contribute</p>
       <ul>
-        <li>{/* <AddPost /> */}</li>
+        <li>
+          <AddPost />
+        </li>
       </ul>
     </div>
   );
