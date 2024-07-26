@@ -1,10 +1,23 @@
-import Navbar from "@/components/base/Navbar";
-import { Button } from "@/components/ui/button";
+import { getPosts } from "../dataFetch/postFetch";
+import { getServerSession } from "next-auth";
+import {
+  authOptions,
+  CustomSession,
+  CustomUser,
+} from "../api/auth/[...nextauth]/authOptions";
+import { json } from "node:stream/consumers";
+import Posts from "@/components/post/Posts";
+export default async function App() {
+  const session: CustomSession | null = await getServerSession(authOptions);
 
-export default function App() {
+  const posts: APIResponseType<PostType> = await getPosts(
+    session?.user?.token!
+  );
+  console.log("posts", posts);
+
   return (
     <div>
-      <h1>I am home page</h1>
+      <Posts data={posts} />
     </div>
   );
 }
